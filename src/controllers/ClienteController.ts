@@ -1,14 +1,5 @@
 import { ClienteService } from '../services/ClienteService';
-import * as readline from 'readline';
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-const perguntar = (pergunta: string): Promise<string> => {
-  return new Promise((resolve) => rl.question(pergunta, resolve));
-};
+import { perguntar } from '../utils/input';
 
 export class ClienteController {
   private clienteService = new ClienteService();

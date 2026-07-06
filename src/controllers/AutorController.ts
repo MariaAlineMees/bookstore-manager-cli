@@ -1,14 +1,5 @@
 import { AutorService } from '../services/AutorService';
-import * as readline from 'readline';
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-const perguntar = (pergunta: string): Promise<string> => {
-  return new Promise((resolve) => rl.question(pergunta, resolve));
-};
+import { perguntar } from '../utils/input';
 
 export class AutorController {
   private autorService = new AutorService();
@@ -16,7 +7,7 @@ export class AutorController {
   async gerenciarAutores(): Promise<void> {
     while (true) {
       console.log('\n========================================');
-      console.log('       📚 GERENCIAMENTO DE AUTORES      ');
+      console.log('        📚 GERENCIAMENTO DE AUTORES     ');
       console.log('========================================');
       console.log('1. Cadastrar novo Autor');
       console.log('2. Listar todos os Autores');
@@ -45,7 +36,7 @@ export class AutorController {
           await this.removerAutor();
           break;
         case '0':
-          return; 
+          return;
         default:
           console.log('❌ Opção inválida! Tente novamente.');
       }
@@ -56,10 +47,13 @@ export class AutorController {
     console.log('\n--- ✍️ Cadastrar Autor ---');
     const nome = await perguntar('Nome do Autor (obrigatório): ');
     const nacionalidade = await perguntar('Nacionalidade (opcional): ');
-    const dataNascimento = await perguntar('Data de Nascimento AAAA-MM-DD (opcional): ');
+    const anoStr = await perguntar('Ano/Data de Nascimento (opcional): ');
+
+    // Ajustado para enviar como texto/string, exatamente como o AutorService espera:
+    const ano: any = anoStr.trim() !== '' ? anoStr.trim() : undefined;
 
     try {
-      const novoAutor = await this.autorService.cadastrar(nome, nacionalidade, dataNascimento);
+      const novoAutor = await this.autorService.cadastrar(nome, nacionalidade, ano);
       console.log(`\n✅ Autor cadastrado com sucesso! ID gerado: ${novoAutor.id}`);
     } catch (error: any) {
       console.log(`\n❌ Erro ao cadastrar autor: ${error.message}`);
@@ -95,14 +89,15 @@ export class AutorController {
   private async atualizarAutor(): Promise<void> {
     console.log('\n--- ✏️ Atualizar Autor ---');
     const idStr = await perguntar('Digite o ID do Autor que deseja atualizar: ');
-    const nome = await perguntar('Novo Nome (deixe em branco para manter o atual): ');
+    const nome = await perguntar('Novo Nome (deixe em branco para manter): ');
     const nacionalidade = await perguntar('Nova Nacionalidade (deixe em branco para manter): ');
 
     try {
-      const autorAtualizado = await this.autorService.atualizar(Number(idStr), {
-        nome: nome || undefined,
-        nacionalidade: nacionalidade || undefined
-      } as any);
+      const dadosAtualizados: any = {};
+      if (nome.trim() !== '') dadosAtualizados.nome = nome.trim();
+      if (nacionalidade.trim() !== '') dadosAtualizados.nacionalidade = nacionalidade.trim();
+
+      const autorAtualizado = await this.autorService.atualizar(Number(idStr), dadosAtualizados);
       console.log('\n✅ Autor atualizado com sucesso!');
       console.table([autorAtualizado]);
     } catch (error: any) {

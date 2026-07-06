@@ -1,14 +1,5 @@
 import { RelatorioService } from '../services/RelatorioService';
-import * as readline from 'readline';
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
-
-const perguntar = (pergunta: string): Promise<string> => {
-  return new Promise((resolve) => rl.question(pergunta, resolve));
-};
+import { perguntar } from '../utils/input';
 
 export class RelatorioController {
   private relatorioService = new RelatorioService();
