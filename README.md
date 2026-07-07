@@ -1,33 +1,28 @@
 # 🏢 BookStore Manager CLI 📚
 
-Uma aplicação de linha de comando (CLI) interativa e robusta desenvolvida em **Node.js** com **TypeScript** e banco de dados relacional **PostgreSQL**. 
+Projeto Final Avaliativo referente ao **Módulo 01** do curso de formação **SC Tech** (Desenvolvedor Back End Node).
 
-O sistema permite o gerenciamento completo de uma livraria, realizando controle de estoque automatizado, cadastro de clientes, vínculo de autores e consultas relacionais complexas em tempo real direto no terminal.
-
----
-
-## 📖 Sobre o projeto
-
-O **BookStore Manager CLI** foi idealizado para simular a rotina administrativa de uma livraria real. O sistema aplica os princípios fundamentais da **Engenharia de Software Moderno**, dividindo as responsabilidades em uma **Arquitetura em Camadas (Layered Architecture)** utilizando o padrão **Repository**.
-
-Toda a comunicação de entrada e saída é feita através de um menu interativo contínuo no terminal, garantindo tratamento de erros em tempo de execução sem travar a aplicação e mantendo a integridade dos dados através de restrições relacionais no banco de dados.
+Uma aplicação de linha de comando (CLI) interativa e robusta desenvolvida em **Node.js** com **TypeScript** e banco de dados relacional **PostgreSQL**. O sistema permite o gerenciamento completo de uma livraria, realizando o controle de estoque automatizado, cadastro de clientes, vínculo de autores e consultas relacionais complexas, tudo em tempo real direto no terminal.
 
 ---
 
-## 🎯 Objetivos e Competências Desenvolvidas
+## 🎯 Objetivo do Projeto
 
-Praticar e consolidar conceitos avançados do desenvolvimento Back-end:
+O objetivo deste projeto é consolidar os conhecimentos de Engenharia de Software Moderna do Módulo 01, simulando a rotina administrativa de uma livraria real. O sistema substitui registros manuais por uma aplicação CLI, aplicando programação orientada a objetos (POO), arquitetura limpa em camadas (Layered Architecture) e modelagem de banco de dados relacional, garantindo a integridade dos dados e tratamento assíncrono de regras de negócio.
+
+---
+
+## 🛠️ Competências Desenvolvidas
 
 * **TypeScript & POO:** Classes tipadas, interfaces robustas e encapsulamento de lógica.
 * **Banco de Dados Relacional (PostgreSQL):** Modelagem de dados, chaves primárias/estrangeiras (`PK/FK`) e restrições de unicidade (`UNIQUE`).
-* **Consultas Avançadas (`JOIN`):** Junção de múltiplas tabelas para geração de relatórios gerenciais precisos.
-* **Arquitetura Limpa:** Separação estrita entre Interface (`Controller`), Lógica (`Service`), Acesso a Dados (`Repository`) e Banco (`Database`).
-* **Tratamento de Exceções:** Prevenção contra travamentos por entradas inválidas ou falhas de regras de negócio.
-* **Versionamento Semântico:** Histórico Git limpo e organizado baseado no fluxo GitFlow.
+* **Consultas Avançadas em SQL:** Utilização de agregações (`JOIN`, `COUNT`, `GROUP BY`, `LIMIT`) para geração de relatórios gerenciais complexos.
+* **Tratamento de Exceções:** Implementação de classe customizada `AppError` para prevenção contra falhas de regras de negócio sem fechar a aplicação.
+* **Versionamento Semântico:** Histórico Git organizado baseado no fluxo GitFlow (branches semânticas).
 
 ---
 
-## 🚀 Tecnologias e Ferramentas Utilizadas
+## 🚀 Tecnologias Utilizadas
 
 * **[Node.js](https://nodejs.org/)** — Ambiente de execução JavaScript no servidor
 * **[TypeScript](https://www.typescriptlang.org/)** — Superset tipado para segurança em tempo de compilação
@@ -38,7 +33,7 @@ Praticar e consolidar conceitos avançados do desenvolvimento Back-end:
 
 ---
 
-## ⚠️ Pré-requisitos
+## ⚠️ Requisitos para Execução
 
 Antes de clonar e executar o projeto, certifique-se de ter instalado em sua máquina:
 
@@ -48,148 +43,170 @@ Antes de clonar e executar o projeto, certifique-se de ter instalado em sua máq
 
 ---
 
-## 💻 Como Instalar e Executar
+## 💻 Instalação e Configuração
 
 **1. Clone o repositório:**
 ```bash
-git clone https://github.com/MariaAlineMees/bookstore-manager-cli.git
-```
-
-**2. Acesse a pasta do projeto:**
-```bash
+git clone [https://github.com/MariaAlineMees/bookstore-manager-cli.git](https://github.com/MariaAlineMees/bookstore-manager-cli.git)
 cd bookstore-manager-cli
 ```
 
-**3. Instale as dependências:**
+**2. Instale as dependências:**
 ```bash
 npm install
 ```
 
-**4. Configure as Variáveis de Ambiente:**
-
-Crie um arquivo chamado `.env` na raiz do projeto e adicione as suas configurações locais do PostgreSQL.
-
-> **Atenção:** Certifique-se de criar o banco de dados `bookstore_db` no seu PostgreSQL antes de continuar.
+**3. Configure as Variáveis de Ambiente:**
+Renomeie o arquivo `.env.example` na raiz do projeto para `.env` e preencha com as suas configurações locais.
+> **Atenção:** Certifique-se de criar o banco de dados vazio chamado `bookstore_db` no seu PostgreSQL antes de continuar.
 
 ```dotenv
 DB_USER=seu_usuario_postgres
-DB_HOST=localhost
-DB_NAME=bookstore_db
 DB_PASSWORD=sua_senha
+DB_HOST=localhost
 DB_PORT=5432
+DB_NAME=bookstore_db
 ```
 
-**5. Popule o Banco com Massa de Dados para Testes:**
+**4. Criação das Tabelas e População de Dados (Seed):**
+Para configurar a estrutura do banco e inserir os dados de teste, você pode escolher uma das duas opções:
 
-O comando a seguir injeta 10 Autores, 20 Livros, 8 Clientes e 11 Empréstimos pré-configurados:
+* **Opção A (Via Terminal - Recomendado):**
+  Certifique-se de que o banco `bookstore_db` existe e execute:
+  ```bash
+  psql -U postgres -d bookstore_db -f src/database/schema.sql
+  ```
+  *(Nota: O terminal pode solicitar a senha do seu usuário do banco).*
 
-```bash
-npm run seed
-```
+* **Opção B (Via Interface Gráfica - pgAdmin / DBeaver):**
+  1. Conecte-se ao `bookstore_db`.
+  2. Abra uma "Query Tool".
+  3. Cole e execute todo o conteúdo do arquivo `src/database/schema.sql`.
 
-**6. Execute o Sistema Interativo:**
+---
+
+## ▶️ Execução
+
+Para iniciar o sistema interativo no terminal, execute o comando:
 ```bash
 npm run dev
 ```
 
 ---
 
-## 📂 Estrutura e Explicação dos Arquivos
-A árvore do projeto foi estritamente organizada para separar regras de apresentação, processamento e persistência:
+## 🏛️ Arquitetura do Projeto
+
+O projeto foi rigorosamente estruturado em camadas para promover a separação de responsabilidades (princípios SOLID):
+
+* **Menus:** Isola a interface com o usuário (CLI), exibição de tabelas e menus de navegação.
+* **Controllers:** Recebem a entrada do terminal e orquestram a chamada aos serviços correspondentes.
+* **Services:** Concentram as regras de negócio e validações antes de qualquer operação no banco.
+* **Repositories:** Isolam a comunicação direta com o PostgreSQL, executando consultas SQL puras e parametrizadas.
+* **Models:** Representam as tipagens e os contratos de dados das entidades (POO).
+* **Utils & Database:** Camadas de infraestrutura responsáveis pela conexão com o banco e ferramentas transversais (como tratamento de exceções).
+
+---
+
+## 📂 Estrutura de Pastas
 
 ```plaintext
-bookstore-manager-cli/
+BOOKSTORE-MANAGER-CLI/
 ├── src/
-│   ├── controllers/            # Recebem a entrada do terminal (CLI) e exibem tabelas visualmente
+│   ├── controllers/            # Recebem a entrada do terminal e orquestram as chamadas
 │   │   ├── AutorController.ts
-│   │   ├── LivroController.ts
 │   │   ├── ClienteController.ts
 │   │   ├── EmprestimoController.ts
+│   │   ├── LivroController.ts
 │   │   └── RelatorioController.ts
-│   ├── models/                 # Interfaces e Tipagens estáticas das entidades relacionais
+│   ├── database/               # Conexão com o banco de dados e script de criação (DDL/DML)
+│   │   ├── connection.ts
+│   │   └── schema.sql
+│   ├── menus/                  # Interface visual, renderização de tabelas e captura de opções
+│   │   ├── AutorMenu.ts
+│   │   ├── ClienteMenu.ts
+│   │   ├── EmprestimoMenu.ts
+│   │   ├── LivroMenu.ts
+│   │   ├── MenuPrincipal.ts
+│   │   └── RelatorioMenu.ts
+│   ├── models/                 # Classes, interfaces e tipagens estáticas das entidades
 │   │   ├── Autor.ts
-│   │   ├── Livro.ts
 │   │   ├── Cliente.ts
-│   │   └── Emprestimo.ts
-│   ├── repositories/           # Executam o SQL puro parametrizado no PostgreSQL ($1, $2...)
+│   │   ├── Emprestimo.ts
+│   │   └── Livro.ts
+│   ├── repositories/           # Executam o SQL puro e parametrizado direto no PostgreSQL
 │   │   ├── AutorRepository.ts
-│   │   ├── LivroRepository.ts
 │   │   ├── ClienteRepository.ts
 │   │   ├── EmprestimoRepository.ts
+│   │   ├── LivroRepository.ts
 │   │   └── RelatorioRepository.ts
-│   ├── services/               # Lógica de negócio, checagem de regras e controle de inventário
+│   ├── services/               # Lógica de negócio, validações de regra e controle de estoque
 │   │   ├── AutorService.ts
-│   │   ├── LivroService.ts
 │   │   ├── ClienteService.ts
 │   │   ├── EmprestimoService.ts
+│   │   ├── LivroService.ts
 │   │   └── RelatorioService.ts
-│   ├── database/               # Conexão com o banco, inicialização de tabelas e Seeder
-│   │   ├── connection.ts       # Configuração do Pool assíncrono do pg
-│   │   ├── schema.sql          # DDL para criação das tabelas e chaves estrangeiras
-│   │   └── seed.ts             # Povoador de dados automatizado para testes
-│   ├── utils/                  # Ferramentas auxiliares transversais
-│   │   └── input.ts            # Leitor centralizado do teclado (evita eco duplicado)
-│   └── main.ts                 # Ponto de entrada central com o Menu de Navegação Principal
-├── .env                        # Credenciais locais do banco
+│   ├── utils/                  # Ferramentas auxiliares e tratamento customizado de exceções
+│   │   ├── AppError.ts
+│   │   └── input.ts
+│   └── main.ts                 # Ponto de entrada central (arranque da aplicação)
+├── .env / .env.example         # Variáveis de ambiente e credenciais locais do banco
+├── .gitignore
+├── package-lock.json
 ├── package.json                # Gerenciador de dependências e scripts de execução
 ├── tsconfig.json               # Configurações estritas do compilador TypeScript
 └── README.md                   # Documentação oficial do sistema
 ```
 
 ---
-✨ Funcionalidades Principais
-✍️ Gerenciamento de Autores: Cadastro, listagem, consulta por ID, atualização de dados e remoção.
 
-📘 Catálogo de Livros: CRUD completo com controle de quantidade em estoque e vínculo obrigatório a um Autor (autor_id).
+## ✨ Funcionalidades Principais
 
-👥 Registro de Clientes: Cadastro com validação automática que impede e-mails duplicados no banco.
+✍️ **Gerenciamento de Autores:** Cadastro, listagem, consulta, atualização e remoção.
+
+📘 **Catálogo de Livros:** CRUD completo com controle de quantidade em estoque e vínculo obrigatório a um Autor.
+
+👥 **Registro de Clientes:** Cadastro com validação automática que impede e-mails duplicados.
 
 🔄 **Empréstimos Inteligentes:**
-*   Checagem se o cliente e o livro existem no banco antes do registro.
-*   Bloqueio automático se o exemplar possuir `quantidade_disponivel <= 0`.
-*   Baixa automática no estoque (`-1` unidade) ao concretizar um empréstimo.
+* Checagem se o cliente e o livro existem no banco antes do registro.
+* Bloqueio automático se o exemplar possuir `quantidade_disponivel <= 0`.
+* Baixa automática no estoque ao concretizar um empréstimo.
 
-📥 Devoluções de Exemplares: Atualização do status para DEVOLVIDO, registro da data atual e reposição automática de +1 unidade no estoque do livro.
+📥 **Devoluções de Exemplares:** Atualização do status para DEVOLVIDO, registro da data e reposição automática do estoque.
 
-📊 **Relatórios Relacionais (JOIN):**
-*   Consulta de livros específicos de um autor.
-*   Listagem exclusiva de livros com estoque disponível (`> 0`).
-*   Tabela de livros atualmente emprestados combinada com o nome e e-mail do cliente tomador.
-*   Histórico completo de movimentações por cliente.
+📊 **Relatórios Relacionais (Consultas SQL Avançadas):**
+* Livros específicos de um autor (`JOIN`).
+* Listagem de livros com estoque disponível.
+* Tabela de livros atualmente emprestados combinada com dados do cliente.
+* 🏆 **Top 5 Livros Mais Populares:** Agregação sofisticada identificando os livros mais emprestados (`JOIN`, `COUNT`, `GROUP BY`, `ORDER BY`, `LIMIT`).
 
-📸 Exemplos de Execução e Testes de Regras de Negócio
-O sistema implementa validações robustas que garantem a segurança do banco de dados perante erros operacionais:
+---
 
-1. Teste de Restrição de Estoque Zerado (RF10)
-Ação: Tentar registrar empréstimo do livro A Revolução dos Bichos (que possui estoque 0).
+## 📸 Tratamento de Erros e Regras de Negócio
 
-Comportamento do Sistema: O serviço intercepta a consulta SQL de inserção e exibe uma mensagem clara:
-> ❌ **Erro ao realizar empréstimo:** O livro 'A Revolução dos Bichos' está indisponível para empréstimo (estoque zerado).
+O sistema implementa validações robustas (via `AppError`) garantindo estabilidade:
 
-2. Teste de Devolução e Incremento de Estoque (RF11)
-Ação: Registrar devolução de um empréstimo ativo.
+1. **Restrição de Estoque Zerado**
+* **Ação:** Tentar registrar empréstimo do livro 'A Revolução dos Bichos' (estoque 0).
+* **Comportamento:** O serviço bloqueia a ação sem fechar a aplicação:
+> ❌ **Erro de Validação:** O livro 'A Revolução dos Bichos' está indisponível para empréstimo (estoque zerado).
 
-Comportamento do Sistema:
-> ✅ **Devolução registrada com sucesso!** Data de devolução: 2026-07-06
->
-> 💡 O estoque do livro foi aumentado em 1 unidade automaticamente.
+2. **Integridade de Chave Estrangeira**
+* **Ação:** Cadastrar um livro com um `autor_id` que não existe.
+* **Comportamento:**
+> ⚠️ **Atenção:** O Autor com ID informado não existe no banco de dados.
 
-🧠 Conceitos e Padrões Aplicados
-Pool de Conexões (pg.Pool): Reaproveitamento inteligente das conexões com o PostgreSQL, evitando vazamento de recursos e sobrecarga na rede.
+---
 
-Queries Parametrizadas: Proteção nativa contra ataques de SQL Injection utilizando marcadores posicionais ($1, $2, etc.) nas chamadas ao banco.
+## 📋 Planejamento e Apresentação
 
-Idempotência de Banco (CREATE TABLE IF NOT EXISTS): Inicialização segura que verifica a estrutura das tabelas no boot do sistema sem destruir dados existentes.
+O planejamento, organização de tarefas e acompanhamento do progresso deste projeto foram gerenciados utilizando a metodologia Kanban.
 
-Centralização de Stream de Entrada (readline Singleton): Padrão criado em utils/input.ts para capturar os eventos de teclado de forma unificada em CLI, eliminando comportamentos de repetição de caracteres.
+🔗 **[Clique aqui para acessar o Kanban do Projeto](https://github.com/users/MariaAlineMees/projects/2)**
 
-📋 Organização e Versionamento
-O projeto seguiu estritamente o fluxo de trabalho GitFlow, isolando cada entrega relacional em branches temáticas antes de integrá-las:
+🎥 **[Clique aqui para visualizar o vídeo de Demonstração (YouTube)](COLOQUE_SEU_LINK_AQUI)**
 
-*   `main` — Versão final estável e testada.
-*   `develop` — Branch principal de integração contínua.
-*   **Branches de Features/Tarefas:**
-    *   `feat/database`, `feat/models`, `feat/autores`, `feat/livros`, `feat/clientes`, `feat/emprestimos`, `feat/relatorios`, `chore/seeder`, `docs/readme`.
+---
 
-✒️ Autoria
-Projeto desenvolvido por Maria Aline Mees, aplicando modelagem de software avançada, CLI interativo e arquitetura limpa com TypeScript.
+## ✒️ Autoria
+Projeto desenvolvido individualmente por **Maria Aline Mees**.
