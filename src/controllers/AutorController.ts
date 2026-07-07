@@ -8,7 +8,7 @@ export class AutorController {
 
   async gerenciarAutores(): Promise<void> {
     while (true) {
-      
+
       AutorMenu.exibir();
 
       const opcao = await perguntar('Escolha uma opção: ');
@@ -41,7 +41,8 @@ export class AutorController {
     console.log('\n--- ✍️  Cadastrar Autor ---');
     const nome = await perguntar('Nome do Autor (obrigatório): ');
     const nacionalidade = await perguntar('Nacionalidade (opcional): ');
-    const anoStr = await perguntar('Ano/Data de Nascimento (opcional): ');
+
+    const anoStr = await perguntar('Data de Nascimento no formato AAAA-MM-DD (opcional): ');
 
     const ano: any = anoStr.trim() !== '' ? anoStr.trim() : undefined;
 
@@ -97,10 +98,15 @@ export class AutorController {
     const nome = await perguntar('Novo Nome (deixe em branco para manter): ');
     const nacionalidade = await perguntar('Nova Nacionalidade (deixe em branco para manter): ');
 
+    // MUDANÇA: Adicionada a pergunta para a nova data
+    const dataNascimento = await perguntar('Nova Data (AAAA-MM-DD) (deixe em branco para manter): ');
+
     try {
       const dadosAtualizados: any = {};
       if (nome.trim() !== '') dadosAtualizados.nome = nome.trim();
       if (nacionalidade.trim() !== '') dadosAtualizados.nacionalidade = nacionalidade.trim();
+
+      if (dataNascimento.trim() !== '') dadosAtualizados.data_nascimento = dataNascimento.trim();
 
       const autorAtualizado = await this.autorService.atualizar(Number(idStr), dadosAtualizados);
       console.log('\n✅ Autor atualizado com sucesso!');

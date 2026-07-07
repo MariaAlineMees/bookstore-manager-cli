@@ -37,17 +37,17 @@ CREATE TABLE IF NOT EXISTS emprestimos (
     CONSTRAINT fk_cliente FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE
 );
 
-INSERT INTO autores (nome, nacionalidade) VALUES
-    ('Machado de Assis', 'Brasileira'),
-    ('J.K. Rowling', 'Britanica'),
-    ('George Orwell', 'Britanica'),
-    ('Clarice Lispector', 'Brasileira'),
-    ('J.R.R. Tolkien', 'Britanica'),
-    ('Agatha Christie', 'Britanica'),
-    ('Gabriel Garcia Marquez', 'Colombiana'),
-    ('Jorge Amado', 'Brasileira'),
-    ('Isaac Asimov', 'Russa/Americana'),
-    ('Robert C. Martin', 'Americana');
+INSERT INTO autores (nome, nacionalidade, data_nascimento) VALUES
+    ('Machado de Assis', 'Brasileira', '1839-06-21'),
+    ('J.K. Rowling', 'Britanica', '1965-07-31'),
+    ('George Orwell', 'Britanica', '1903-06-25'),
+    ('Clarice Lispector', 'Brasileira', '1920-12-10'),
+    ('J.R.R. Tolkien', 'Britanica', '1892-01-03'),
+    ('Agatha Christie', 'Britanica', '1890-09-15'),
+    ('Gabriel Garcia Marquez', 'Colombiana', '1927-03-06'),
+    ('Jorge Amado', 'Brasileira', '1912-08-10'),
+    ('Isaac Asimov', 'Russa/Americana', '1920-01-02'),
+    ('Robert C. Martin', 'Americana', '1952-12-05');
 
 INSERT INTO livros (titulo, autor_id, quantidade_disponivel, ano_publicacao) VALUES
     ('Dom Casmurro', 1, 5, 1899),
