@@ -1,21 +1,15 @@
 import { AutorService } from '../services/AutorService';
 import { perguntar } from '../utils/input';
+import { AutorMenu } from '../menus/AutorMenu';
+import { AppError } from '../utils/AppError';
 
 export class AutorController {
   private autorService = new AutorService();
 
   async gerenciarAutores(): Promise<void> {
     while (true) {
-      console.log('\n========================================');
-      console.log('        📚 GERENCIAMENTO DE AUTORES     ');
-      console.log('========================================');
-      console.log('1. Cadastrar novo Autor');
-      console.log('2. Listar todos os Autores');
-      console.log('3. Consultar Autor por ID');
-      console.log('4. Atualizar Autor');
-      console.log('5. Remover Autor');
-      console.log('0. Voltar ao Menu Principal');
-      console.log('========================================');
+      
+      AutorMenu.exibir();
 
       const opcao = await perguntar('Escolha uma opção: ');
 
@@ -44,19 +38,22 @@ export class AutorController {
   }
 
   private async cadastrarAutor(): Promise<void> {
-    console.log('\n--- ✍️ Cadastrar Autor ---');
+    console.log('\n--- ✍️  Cadastrar Autor ---');
     const nome = await perguntar('Nome do Autor (obrigatório): ');
     const nacionalidade = await perguntar('Nacionalidade (opcional): ');
     const anoStr = await perguntar('Ano/Data de Nascimento (opcional): ');
 
-    // Ajustado para enviar como texto/string, exatamente como o AutorService espera:
     const ano: any = anoStr.trim() !== '' ? anoStr.trim() : undefined;
 
     try {
       const novoAutor = await this.autorService.cadastrar(nome, nacionalidade, ano);
       console.log(`\n✅ Autor cadastrado com sucesso! ID gerado: ${novoAutor.id}`);
     } catch (error: any) {
-      console.log(`\n❌ Erro ao cadastrar autor: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -70,7 +67,11 @@ export class AutorController {
         console.table(autores);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -82,12 +83,16 @@ export class AutorController {
       console.log('\n✅ Autor encontrado:');
       console.table([autor]);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
   private async atualizarAutor(): Promise<void> {
-    console.log('\n--- ✏️ Atualizar Autor ---');
+    console.log('\n--- ✏️  Atualizar Autor ---');
     const idStr = await perguntar('Digite o ID do Autor que deseja atualizar: ');
     const nome = await perguntar('Novo Nome (deixe em branco para manter): ');
     const nacionalidade = await perguntar('Nova Nacionalidade (deixe em branco para manter): ');
@@ -101,18 +106,26 @@ export class AutorController {
       console.log('\n✅ Autor atualizado com sucesso!');
       console.table([autorAtualizado]);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
   private async removerAutor(): Promise<void> {
-    console.log('\n--- 🗑️ Remover Autor ---');
+    console.log('\n--- 🗑️  Remover Autor ---');
     const idStr = await perguntar('Digite o ID do Autor que deseja remover: ');
     try {
       await this.autorService.remover(Number(idStr));
       console.log(`\n✅ Autor ID ${idStr} removido com sucesso!`);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 }
