@@ -15,8 +15,7 @@ const relatorioController = new RelatorioController();
 async function iniciarSistema(): Promise<void> {
   while (true) {
     console.clear(); 
-    
-    // Chamada da camada visual isolada
+  
     MenuPrincipal.exibir();
 
     const opcao = await perguntar('Escolha um módulo para acessar: ');
