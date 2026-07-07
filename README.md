@@ -192,4 +192,4 @@ O projeto seguiu estritamente o fluxo de trabalho GitFlow, isolando cada entrega
     *   `feat/database`, `feat/models`, `feat/autores`, `feat/livros`, `feat/clientes`, `feat/emprestimos`, `feat/relatorios`, `chore/seeder`, `docs/readme`.
 
 ✒️ Autoria
-Projeto desenvolvido com excelência técnica por Maria Aline Mees, aplicando modelagem de software avançada, CLI interativo e arquitetura limpa com TypeScript.
+Projeto desenvolvido por Maria Aline Mees, aplicando modelagem de software avançada, CLI interativo e arquitetura limpa com TypeScript.
