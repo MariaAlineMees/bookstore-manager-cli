@@ -2,6 +2,7 @@ import { EmprestimoRepository } from '../repositories/EmprestimoRepository';
 import { LivroRepository } from '../repositories/LivroRepository';
 import { ClienteRepository } from '../repositories/ClienteRepository';
 import { Emprestimo, IEmprestimo } from '../models/Emprestimo';
+import { AppError } from '../utils/AppError'; 
 
 export class EmprestimoService {
   private emprestimoRepository = new EmprestimoRepository();
@@ -11,24 +12,24 @@ export class EmprestimoService {
   async realizarEmprestimo(livroId: number, clienteId: number): Promise<IEmprestimo> {
     try {
       if (isNaN(livroId) || livroId <= 0) {
-        throw new Error('ID do livro informado é inválido.');
+        throw new AppError('ID do livro informado é inválido.');
       }
       if (isNaN(clienteId) || clienteId <= 0) {
-        throw new Error('ID do cliente informado é inválido.');
+        throw new AppError('ID do cliente informado é inválido.');
       }
 
       const cliente = await this.clienteRepository.buscarPorId(clienteId);
       if (!cliente) {
-        throw new Error(`O Cliente com ID ${clienteId} não está cadastrado no sistema.`);
+        throw new AppError(`O Cliente com ID ${clienteId} não está cadastrado no sistema.`);
       }
 
       const livro = await this.livroRepository.buscarPorId(livroId);
       if (!livro) {
-        throw new Error(`O Livro com ID ${livroId} não está cadastrado no sistema.`);
+        throw new AppError(`O Livro com ID ${livroId} não está cadastrado no sistema.`);
       }
 
       if (livro.quantidade_disponivel <= 0) {
-        throw new Error(`O livro '${livro.titulo}' está indisponível para empréstimo (estoque zerado).`);
+        throw new AppError(`O livro '${livro.titulo}' está indisponível para empréstimo (estoque zerado).`);
       }
 
       const novoEmprestimo = new Emprestimo(livroId, clienteId);
@@ -47,16 +48,16 @@ export class EmprestimoService {
   async realizarDevolucao(emprestimoId: number): Promise<IEmprestimo> {
     try {
       if (isNaN(emprestimoId) || emprestimoId <= 0) {
-        throw new Error('ID do empréstimo informado é inválido.');
+        throw new AppError('ID do empréstimo informado é inválido.');
       }
 
       const emprestimo = await this.emprestimoRepository.buscarPorId(emprestimoId);
       if (!emprestimo) {
-        throw new Error(`Empréstimo com ID ${emprestimoId} não encontrado.`);
+        throw new AppError(`Empréstimo com ID ${emprestimoId} não encontrado.`);
       }
 
       if (emprestimo.status === 'DEVOLVIDO') {
-        throw new Error(`Este empréstimo (ID ${emprestimoId}) já foi finalizado/devolvido anteriormente.`);
+        throw new AppError(`Este empréstimo (ID ${emprestimoId}) já foi finalizado/devolvido anteriormente.`);
       }
 
       const emprestimoDevolvido = await this.emprestimoRepository.devolver(emprestimoId);
@@ -97,7 +98,7 @@ export class EmprestimoService {
     try {
       const emprestimo = await this.emprestimoRepository.buscarPorId(id);
       if (!emprestimo) {
-        throw new Error(`Empréstimo com ID ${id} não encontrado.`);
+        throw new AppError(`Empréstimo com ID ${id} não encontrado.`);
       }
       return emprestimo;
     } catch (error) {
