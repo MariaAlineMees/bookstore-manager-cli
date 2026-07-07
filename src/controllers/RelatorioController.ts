@@ -1,20 +1,14 @@
 import { RelatorioService } from '../services/RelatorioService';
 import { perguntar } from '../utils/input';
+import { RelatorioMenu } from '../menus/RelatorioMenu';
+import { AppError } from '../utils/AppError';
 
 export class RelatorioController {
   private relatorioService = new RelatorioService();
 
   async exibirMenuRelatorios(): Promise<void> {
     while (true) {
-      console.log('\n========================================');
-      console.log('       📊 RELATÓRIOS E CONSULTAS        ');
-      console.log('========================================');
-      console.log('1. Listar Livros por Autor específico');
-      console.log('2. Listar apenas Livros Disponíveis em Estoque');
-      console.log('3. Listar Livros Atualmente Emprestados (e quem pegou)');
-      console.log('4. Histórico Completo de Empréstimos de um Cliente');
-      console.log('0. Voltar ao Menu Principal');
-      console.log('========================================');
+      RelatorioMenu.exibir();
 
       const opcao = await perguntar('Escolha um relatório para gerar: ');
 
@@ -51,7 +45,11 @@ export class RelatorioController {
         console.table(livros);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -65,7 +63,11 @@ export class RelatorioController {
         console.table(livros);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -79,7 +81,11 @@ export class RelatorioController {
         console.table(emprestados);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -95,7 +101,11 @@ export class RelatorioController {
         console.table(historico);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 }
