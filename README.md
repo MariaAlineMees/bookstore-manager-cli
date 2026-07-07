@@ -47,7 +47,7 @@ Antes de clonar e executar o projeto, certifique-se de ter instalado em sua máq
 
 **1. Clone o repositório:**
 ```bash
-git clone (https://github.com/MariaAlineMees/bookstore-manager-cli.git)
+git clone https://github.com/MariaAlineMees/bookstore-manager-cli.git
 cd bookstore-manager-cli
 ```
 
