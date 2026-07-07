@@ -25,6 +25,9 @@ export class RelatorioController {
         case '4':
           await this.relatorioHistoricoCliente();
           break;
+        case '5':
+          await this.relatorioLivrosPopulares();
+          break;
         case '0':
           return;
         default:
@@ -99,6 +102,24 @@ export class RelatorioController {
         console.log('Este cliente ainda não realizou nenhum empréstimo na livraria.');
       } else {
         console.table(historico);
+      }
+    } catch (error: any) {
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
+    }
+  }
+
+  private async relatorioLivrosPopulares(): Promise<void> {
+    console.log('\n--- 🏆 Top 5 Livros Mais Populares ---');
+    try {
+      const populares = await this.relatorioService.listarLivrosPopulares();
+      if (populares.length === 0) {
+        console.log('Ainda não há histórico de empréstimos suficiente.');
+      } else {
+        console.table(populares);
       }
     } catch (error: any) {
       if (error instanceof AppError) {

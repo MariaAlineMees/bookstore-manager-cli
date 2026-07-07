@@ -52,4 +52,18 @@ export class RelatorioRepository {
     const resultado = await pool.query(query, [clienteId]);
     return resultado.rows;
   }
+
+  async buscarLivrosMaisPopulares(): Promise<any[]> {
+    const query = `
+      SELECT l.titulo AS livro_titulo, a.nome AS autor_nome, COUNT(e.id) AS total_emprestimos
+      FROM emprestimos e
+      JOIN livros l ON e.livro_id = l.id
+      JOIN autores a ON l.autor_id = a.id
+      GROUP BY l.id, l.titulo, a.nome
+      ORDER BY total_emprestimos DESC
+      LIMIT 5;
+    `;
+    const resultado = await pool.query(query);
+    return resultado.rows;
+  }
 }
