@@ -1,21 +1,14 @@
 import { EmprestimoService } from '../services/EmprestimoService';
 import { perguntar } from '../utils/input';
+import { EmprestimoMenu } from '../menus/EmprestimoMenu';
+import { AppError } from '../utils/AppError';
 
 export class EmprestimoController {
   private emprestimoService = new EmprestimoService();
 
   async gerenciarEmprestimos(): Promise<void> {
     while (true) {
-      console.log('\n========================================');
-      console.log('       🔄 GERENCIAMENTO DE EMPRÉSTIMOS  ');
-      console.log('========================================');
-      console.log('1. Registrar Novo Empréstimo');
-      console.log('2. Registrar Devolução');
-      console.log('3. Listar Empréstimos Ativos');
-      console.log('4. Listar Histórico Completo');
-      console.log('5. Consultar Empréstimo por ID');
-      console.log('0. Voltar ao Menu Principal');
-      console.log('========================================');
+      EmprestimoMenu.exibir();
 
       const opcao = await perguntar('Escolha uma opção: ');
 
@@ -56,7 +49,11 @@ export class EmprestimoController {
       console.log(`\n✅ Empréstimo realizado com sucesso! ID gerado: ${novoEmprestimo.id}`);
       console.log('💡 O estoque do livro foi reduzido em 1 unidade automaticamente.');
     } catch (error: any) {
-      console.log(`\n❌ Erro ao realizar empréstimo: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -69,7 +66,11 @@ export class EmprestimoController {
       console.log(`\n✅ Devolução registrada com sucesso! Data de devolução: ${emprestimoDevolvido.data_devolucao}`);
       console.log('💡 O estoque do livro foi aumentado em 1 unidade automaticamente.');
     } catch (error: any) {
-      console.log(`\n❌ Erro ao registrar devolução: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -83,7 +84,11 @@ export class EmprestimoController {
         console.table(ativos);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -97,7 +102,11 @@ export class EmprestimoController {
         console.table(todos);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -109,7 +118,11 @@ export class EmprestimoController {
       console.log('\n✅ Registro encontrado:');
       console.table([emprestimo]);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 }
