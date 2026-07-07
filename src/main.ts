@@ -1,3 +1,4 @@
+import { MenuPrincipal } from './menus/MenuPrincipal';
 import { AutorController } from './controllers/AutorController';
 import { LivroController } from './controllers/LivroController';
 import { ClienteController } from './controllers/ClienteController';
@@ -13,17 +14,10 @@ const relatorioController = new RelatorioController();
 
 async function iniciarSistema(): Promise<void> {
   while (true) {
-    console.clear(); // Limpa o terminal para deixar o menu bonito
-    console.log('====================================================');
-    console.log('        🏢 SISTEMA DE GESTÃO DE LIVRARIA CLI        ');
-    console.log('====================================================');
-    console.log('1. ✍️  Gerenciar Autores');
-    console.log('2. 📘 Gerenciar Livros');
-    console.log('3. 👥 Gerenciar Clientes');
-    console.log('4. 🔄 Gerenciar Empréstimos e Devoluções');
-    console.log('5. 📊 Relatórios e Consultas Avançadas');
-    console.log('0. 🚪 Sair do Sistema');
-    console.log('====================================================');
+    console.clear(); 
+    
+    // Chamada da camada visual isolada
+    MenuPrincipal.exibir();
 
     const opcao = await perguntar('Escolha um módulo para acessar: ');
 
@@ -44,7 +38,7 @@ async function iniciarSistema(): Promise<void> {
         await relatorioController.exibirMenuRelatorios();
         break;
       case '0':
-        console.log('\n👋 Encerrando o sistema da livraria... Até logo!');
+        console.log('\n👋 Encerrando o BookStore Manager CLI... Até logo!');
         fecharEntrada();
         process.exit(0);
       default:
