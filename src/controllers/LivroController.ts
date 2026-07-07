@@ -1,21 +1,15 @@
 import { LivroService } from '../services/LivroService';
 import { perguntar } from '../utils/input';
+import { LivroMenu } from '../menus/LivroMenu';
+import { AppError } from '../utils/AppError';
 
 export class LivroController {
   private livroService = new LivroService();
 
   async gerenciarLivros(): Promise<void> {
     while (true) {
-      console.log('\n========================================');
-      console.log('         📘 GERENCIAMENTO DE LIVROS     ');
-      console.log('========================================');
-      console.log('1. Cadastrar novo Livro');
-      console.log('2. Listar todos os Livros');
-      console.log('3. Consultar Livro por ID');
-      console.log('4. Atualizar Livro');
-      console.log('5. Remover Livro');
-      console.log('0. Voltar ao Menu Principal');
-      console.log('========================================');
+      
+      LivroMenu.exibir();
 
       const opcao = await perguntar('Escolha uma opção: ');
 
@@ -44,7 +38,7 @@ export class LivroController {
   }
 
   private async cadastrarLivro(): Promise<void> {
-    console.log('\n--- ✍️ Cadastrar Livro ---');
+    console.log('\n--- ✍️  Cadastrar Livro ---');
     const titulo = await perguntar('Título do Livro (obrigatório): ');
     const autorIdStr = await perguntar('ID do Autor (obrigatório): ');
     const quantidadeStr = await perguntar('Quantidade Disponível em estoque (padrão 1): ');
@@ -58,7 +52,11 @@ export class LivroController {
       const novoLivro = await this.livroService.cadastrar(titulo, autorId, quantidade, ano);
       console.log(`\n✅ Livro cadastrado com sucesso! ID gerado: ${novoLivro.id}`);
     } catch (error: any) {
-      console.log(`\n❌ Erro ao cadastrar livro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -69,10 +67,23 @@ export class LivroController {
       if (livros.length === 0) {
         console.log('Nenhum livro cadastrado no sistema.');
       } else {
-        console.table(livros);
+    
+        const livrosFormatados = livros.map((livro: any) => ({
+          ID: livro.id,
+          Título: livro.titulo,
+          'ID Autor': livro.autor_id,
+          Ano: livro.ano_publicacao || 'N/D',
+          Qtd: livro.quantidade_disponivel,
+          Status: livro.quantidade_disponivel > 0 ? '🟢 Disponível' : '🔴 Indisponível'
+        }));
+        console.table(livrosFormatados);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -81,15 +92,29 @@ export class LivroController {
     const idStr = await perguntar('Digite o ID do Livro: ');
     try {
       const livro = await this.livroService.buscarPorId(Number(idStr));
+      
+      const livroFormatado = {
+        ID: livro.id,
+        Título: livro.titulo,
+        'ID Autor': livro.autor_id,
+        Ano: livro.ano_publicacao || 'N/D',
+        Qtd: livro.quantidade_disponivel,
+        Status: livro.quantidade_disponivel > 0 ? '🟢 Disponível' : '🔴 Indisponível'
+      };
+
       console.log('\n✅ Livro encontrado:');
-      console.table([livro]);
+      console.table([livroFormatado]);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
   private async atualizarLivro(): Promise<void> {
-    console.log('\n--- ✏️ Atualizar Livro ---');
+    console.log('\n--- ✏️  Atualizar Livro ---');
     const idStr = await perguntar('Digite o ID do Livro que deseja atualizar: ');
     const titulo = await perguntar('Novo Título (deixe em branco para manter): ');
     const autorIdStr = await perguntar('Novo ID do Autor (deixe em branco para manter): ');
@@ -105,18 +130,26 @@ export class LivroController {
       console.log('\n✅ Livro atualizado com sucesso!');
       console.table([livroAtualizado]);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
   private async removerLivro(): Promise<void> {
-    console.log('\n--- 🗑️ Remover Livro ---');
+    console.log('\n--- 🗑️  Remover Livro ---');
     const idStr = await perguntar('Digite o ID do Livro que deseja remover: ');
     try {
       await this.livroService.remover(Number(idStr));
       console.log(`\n✅ Livro ID ${idStr} removido com sucesso!`);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 }
