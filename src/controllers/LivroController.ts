@@ -119,12 +119,16 @@ export class LivroController {
     const titulo = await perguntar('Novo Título (deixe em branco para manter): ');
     const autorIdStr = await perguntar('Novo ID do Autor (deixe em branco para manter): ');
     const quantidadeStr = await perguntar('Nova Quantidade Disponível (deixe em branco para manter): ');
+    const anoStr = await perguntar('Novo Ano de Publicação (deixe em branco para manter): ');
 
     try {
       const dadosAtualizados: any = {};
+      
       if (titulo.trim() !== '') dadosAtualizados.titulo = titulo.trim();
-      if (autorIdStr.trim() !== '') dadosAtualizados.autor_id = Number(autorIdStr);
-      if (quantidadeStr.trim() !== '') dadosAtualizados.quantidade_disponivel = Number(quantidadeStr);
+      if (autorIdStr.trim() !== '') dadosAtualizados.autor_id = Number(autorIdStr.trim());
+      if (quantidadeStr.trim() !== '') dadosAtualizados.quantidade_disponivel = Number(quantidadeStr.trim());
+  
+      if (anoStr.trim() !== '') dadosAtualizados.ano_publicacao = Number(anoStr.trim());
 
       const livroAtualizado = await this.livroService.atualizar(Number(idStr), dadosAtualizados);
       console.log('\n✅ Livro atualizado com sucesso!');
