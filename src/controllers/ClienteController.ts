@@ -1,21 +1,14 @@
 import { ClienteService } from '../services/ClienteService';
 import { perguntar } from '../utils/input';
+import { ClienteMenu } from '../menus/ClienteMenu';
+import { AppError } from '../utils/AppError';
 
 export class ClienteController {
   private clienteService = new ClienteService();
 
   async gerenciarClientes(): Promise<void> {
     while (true) {
-      console.log('\n========================================');
-      console.log('        👥 GERENCIAMENTO DE CLIENTES    ');
-      console.log('========================================');
-      console.log('1. Cadastrar novo Cliente');
-      console.log('2. Listar todos os Clientes');
-      console.log('3. Consultar Cliente por ID');
-      console.log('4. Atualizar Cliente');
-      console.log('5. Remover Cliente');
-      console.log('0. Voltar ao Menu Principal');
-      console.log('========================================');
+      ClienteMenu.exibir();
 
       const opcao = await perguntar('Escolha uma opção: ');
 
@@ -44,7 +37,7 @@ export class ClienteController {
   }
 
   private async cadastrarCliente(): Promise<void> {
-    console.log('\n--- ✍️ Cadastrar Cliente ---');
+    console.log('\n--- ✍️  Cadastrar Cliente ---');
     const nome = await perguntar('Nome do Cliente (obrigatório): ');
     const email = await perguntar('E-mail (obrigatório): ');
     const telefone = await perguntar('Telefone (opcional): ');
@@ -53,7 +46,11 @@ export class ClienteController {
       const novoCliente = await this.clienteService.cadastrar(nome, email, telefone);
       console.log(`\n✅ Cliente cadastrado com sucesso! ID gerado: ${novoCliente.id}`);
     } catch (error: any) {
-      console.log(`\n❌ Erro ao cadastrar cliente: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -67,7 +64,11 @@ export class ClienteController {
         console.table(clientes);
       }
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
@@ -79,12 +80,16 @@ export class ClienteController {
       console.log('\n✅ Cliente encontrado:');
       console.table([cliente]);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
   private async atualizarCliente(): Promise<void> {
-    console.log('\n--- ✏️ Atualizar Cliente ---');
+    console.log('\n--- ✏️  Atualizar Cliente ---');
     const idStr = await perguntar('Digite o ID do Cliente que deseja atualizar: ');
     const nome = await perguntar('Novo Nome (deixe em branco para manter): ');
     const email = await perguntar('Novo E-mail (deixe em branco para manter): ');
@@ -100,18 +105,26 @@ export class ClienteController {
       console.log('\n✅ Cliente atualizado com sucesso!');
       console.table([clienteAtualizado]);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 
   private async removerCliente(): Promise<void> {
-    console.log('\n--- 🗑️ Remover Cliente ---');
+    console.log('\n--- 🗑️  Remover Cliente ---');
     const idStr = await perguntar('Digite o ID do Cliente que deseja remover: ');
     try {
       await this.clienteService.remover(Number(idStr));
       console.log(`\n✅ Cliente ID ${idStr} removido com sucesso!`);
     } catch (error: any) {
-      console.log(`\n❌ Erro: ${error.message}`);
+      if (error instanceof AppError) {
+        console.log(`\n⚠️  Atenção: ${error.message}`);
+      } else {
+        console.log(`\n❌ Erro inesperado: ${error.message}`);
+      }
     }
   }
 }
