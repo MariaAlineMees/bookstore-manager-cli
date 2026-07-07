@@ -8,7 +8,7 @@ Uma aplicação de linha de comando (CLI) interativa e robusta desenvolvida em *
 
 ## 🎯 Objetivo do Projeto
 
-O objetivo deste projeto é consolidar os conhecimentos de Engenharia de Software Moderna do Módulo 01, simulando a rotina administrativa de uma livraria real. O sistema substitui registros manuais por uma aplicação CLI, aplicando programação orientada a objetos (POO), arquitetura limpa em camadas (Layered Architecture) e modelagem de banco de dados relacional, garantindo a integridade dos dados e tratamento assíncrono de regras de negócio.
+O objetivo deste projeto é consolidar os conhecimentos de Engenharia de Software Moderna do Módulo 01, simulando a rotina administrativa de uma livraria real. O sistema substitui registros manuais por uma aplicação CLI, aplicando programação orientada a objetos (POO), arquitetura limpa em camadas e modelagem de banco de dados relacional, garantindo a integridade dos dados e tratamento assíncrono de regras de negócio.
 
 ---
 
@@ -47,7 +47,7 @@ Antes de clonar e executar o projeto, certifique-se de ter instalado em sua máq
 
 **1. Clone o repositório:**
 ```bash
-git clone [https://github.com/MariaAlineMees/bookstore-manager-cli.git](https://github.com/MariaAlineMees/bookstore-manager-cli.git)
+git clone (https://github.com/MariaAlineMees/bookstore-manager-cli.git)
 cd bookstore-manager-cli
 ```
 
@@ -68,7 +68,7 @@ DB_PORT=5432
 DB_NAME=bookstore_db
 ```
 
-**4. Criação das Tabelas e População de Dados (Seed):**
+**4. Criação das Tabelas e População de Dados:**
 Para configurar a estrutura do banco e inserir os dados de teste, você pode escolher uma das duas opções:
 
 * **Opção A (Via Terminal - Recomendado):**
@@ -203,8 +203,6 @@ O sistema implementa validações robustas (via `AppError`) garantindo estabilid
 O planejamento, organização de tarefas e acompanhamento do progresso deste projeto foram gerenciados utilizando a metodologia Kanban.
 
 🔗 **[Clique aqui para acessar o Kanban do Projeto](https://github.com/users/MariaAlineMees/projects/2)**
-
-🎥 **[Clique aqui para visualizar o vídeo de Demonstração (YouTube)](COLOQUE_SEU_LINK_AQUI)**
 
 ---
 
