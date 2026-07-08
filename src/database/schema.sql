@@ -81,15 +81,15 @@ INSERT INTO clientes (nome, email, telefone) VALUES
     ('Juliana Pereira', 'juliana@email.com', '77777'),
     ('Gabriel Santos', 'gabriel@email.com', '88888');
 
-INSERT INTO emprestimos (livro_id, cliente_id, status) VALUES
-    (1, 1, 'ATIVO'),
-    (4, 2, 'ATIVO'),
-    (11, 4, 'ATIVO'),
-    (20, 5, 'ATIVO'),
-    (16, 6, 'ATIVO'),
-    (15, 8, 'ATIVO'),
-    (7, 1, 'DEVOLVIDO'),
-    (9, 3, 'DEVOLVIDO'),
-    (12, 7, 'DEVOLVIDO'),
-    (18, 4, 'DEVOLVIDO'),
-    (14, 2, 'DEVOLVIDO');
+INSERT INTO emprestimos (livro_id, cliente_id, status, data_devolucao) VALUES
+    (1, 1, 'ATIVO', NULL),
+    (4, 2, 'ATIVO', NULL),
+    (11, 4, 'ATIVO', NULL),
+    (20, 5, 'ATIVO', NULL),
+    (16, 6, 'ATIVO', NULL),
+    (15, 8, 'ATIVO', NULL),
+    (7, 1, 'DEVOLVIDO', '2026-07-01'), 
+    (9, 3, 'DEVOLVIDO', '2026-07-03'),
+    (12, 7, 'DEVOLVIDO', '2026-07-05'),
+    (18, 4, 'DEVOLVIDO', '2026-07-06'),
+    (14, 2, 'DEVOLVIDO', '2026-07-07');
