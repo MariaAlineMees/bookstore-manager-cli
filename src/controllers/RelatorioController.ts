@@ -2,6 +2,7 @@ import { RelatorioService } from '../services/RelatorioService';
 import { perguntar } from '../utils/input';
 import { RelatorioMenu } from '../menus/RelatorioMenu';
 import { AppError } from '../utils/AppError';
+import { DateUtils } from '../utils/DateUtils'; 
 
 export class RelatorioController {
   private relatorioService = new RelatorioService();
@@ -81,7 +82,11 @@ export class RelatorioController {
       if (emprestados.length === 0) {
         console.log('Ótima notícia: Nenhum livro pendente de devolução no momento!');
       } else {
-        console.table(emprestados);
+        const formatados = emprestados.map((emp: any) => ({
+          ...emp,
+          data_emprestimo: DateUtils.formatarDataBR(emp.data_emprestimo)
+        }));
+        console.table(formatados);
       }
     } catch (error: any) {
       if (error instanceof AppError) {
@@ -101,7 +106,13 @@ export class RelatorioController {
       if (historico.length === 0) {
         console.log('Este cliente ainda não realizou nenhum empréstimo na livraria.');
       } else {
-        console.table(historico);
+        
+        const formatados = historico.map((emp: any) => ({
+          ...emp,
+          data_emprestimo: DateUtils.formatarDataBR(emp.data_emprestimo),
+          data_devolucao: DateUtils.formatarDataBR(emp.data_devolucao)
+        }));
+        console.table(formatados);
       }
     } catch (error: any) {
       if (error instanceof AppError) {

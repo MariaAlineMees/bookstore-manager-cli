@@ -2,6 +2,7 @@ import { EmprestimoService } from '../services/EmprestimoService';
 import { perguntar } from '../utils/input';
 import { EmprestimoMenu } from '../menus/EmprestimoMenu';
 import { AppError } from '../utils/AppError';
+import { DateUtils } from '../utils/DateUtils'; 
 
 export class EmprestimoController {
   private emprestimoService = new EmprestimoService();
@@ -63,7 +64,9 @@ export class EmprestimoController {
 
     try {
       const emprestimoDevolvido = await this.emprestimoService.realizarDevolucao(Number(emprestimoIdStr));
-      console.log(`\n✅ Devolução registrada com sucesso! Data de devolução: ${emprestimoDevolvido.data_devolucao}`);
+      
+      const dataFormatada = DateUtils.formatarDataBR(emprestimoDevolvido.data_devolucao);
+      console.log(`\n✅ Devolução registrada com sucesso! Data de devolução: ${dataFormatada}`);
       console.log('💡 O estoque do livro foi aumentado em 1 unidade automaticamente.');
     } catch (error: any) {
       if (error instanceof AppError) {
@@ -81,7 +84,12 @@ export class EmprestimoController {
       if (ativos.length === 0) {
         console.log('Nenhum empréstimo ativo no momento.');
       } else {
-        console.table(ativos);
+  
+        const ativosFormatados = ativos.map((emp: any) => ({
+          ...emp,
+          data_emprestimo: DateUtils.formatarDataBR(emp.data_emprestimo)
+        }));
+        console.table(ativosFormatados);
       }
     } catch (error: any) {
       if (error instanceof AppError) {
@@ -99,7 +107,13 @@ export class EmprestimoController {
       if (todos.length === 0) {
         console.log('Nenhum registro de empréstimo encontrado.');
       } else {
-        console.table(todos);
+        // 👇 Formatando as duas datas (Empréstimo e Devolução)
+        const todosFormatados = todos.map((emp: any) => ({
+          ...emp,
+          data_emprestimo: DateUtils.formatarDataBR(emp.data_emprestimo),
+          data_devolucao: DateUtils.formatarDataBR(emp.data_devolucao)
+        }));
+        console.table(todosFormatados);
       }
     } catch (error: any) {
       if (error instanceof AppError) {
@@ -114,9 +128,16 @@ export class EmprestimoController {
     console.log('\n--- 🔍 Consultar Empréstimo por ID ---');
     const idStr = await perguntar('Digite o ID do Empréstimo: ');
     try {
-      const emprestimo = await this.emprestimoService.buscarPorId(Number(idStr));
+      const emprestimo: any = await this.emprestimoService.buscarPorId(Number(idStr));
       console.log('\n✅ Registro encontrado:');
-      console.table([emprestimo]);
+      
+      const emprestimoFormatado = {
+        ...emprestimo,
+        data_emprestimo: DateUtils.formatarDataBR(emprestimo.data_emprestimo),
+        data_devolucao: DateUtils.formatarDataBR(emprestimo.data_devolucao)
+      };
+      
+      console.table([emprestimoFormatado]);
     } catch (error: any) {
       if (error instanceof AppError) {
         console.log(`\n⚠️  Atenção: ${error.message}`);

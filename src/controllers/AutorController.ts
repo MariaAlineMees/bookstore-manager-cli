@@ -2,13 +2,12 @@ import { AutorService } from '../services/AutorService';
 import { perguntar } from '../utils/input';
 import { AutorMenu } from '../menus/AutorMenu';
 import { AppError } from '../utils/AppError';
-
+import { DateUtils } from '../utils/DateUtils'; 
 export class AutorController {
   private autorService = new AutorService();
 
   async gerenciarAutores(): Promise<void> {
     while (true) {
-
       AutorMenu.exibir();
 
       const opcao = await perguntar('Escolha uma opção: ');
@@ -41,7 +40,6 @@ export class AutorController {
     console.log('\n--- ✍️  Cadastrar Autor ---');
     const nome = await perguntar('Nome do Autor (obrigatório): ');
     const nacionalidade = await perguntar('Nacionalidade (opcional): ');
-
     const anoStr = await perguntar('Data de Nascimento no formato AAAA-MM-DD (opcional): ');
 
     const ano: any = anoStr.trim() !== '' ? anoStr.trim() : undefined;
@@ -65,7 +63,11 @@ export class AutorController {
       if (autores.length === 0) {
         console.log('Nenhum autor cadastrado no sistema.');
       } else {
-        console.table(autores);
+        const autoresFormatados = autores.map((autor: any) => ({
+          ...autor,
+          data_nascimento: autor.data_nascimento ? DateUtils.formatarDataBR(autor.data_nascimento) : 'N/D'
+        }));
+        console.table(autoresFormatados);
       }
     } catch (error: any) {
       if (error instanceof AppError) {
@@ -80,9 +82,14 @@ export class AutorController {
     console.log('\n--- 🔍 Consultar Autor por ID ---');
     const idStr = await perguntar('Digite o ID do Autor: ');
     try {
-      const autor = await this.autorService.buscarPorId(Number(idStr));
+      const autor: any = await this.autorService.buscarPorId(Number(idStr));
       console.log('\n✅ Autor encontrado:');
-      console.table([autor]);
+      
+      const autorFormatado = {
+        ...autor,
+        data_nascimento: autor.data_nascimento ? DateUtils.formatarDataBR(autor.data_nascimento) : 'N/D'
+      };
+      console.table([autorFormatado]);
     } catch (error: any) {
       if (error instanceof AppError) {
         console.log(`\n⚠️  Atenção: ${error.message}`);
@@ -97,15 +104,12 @@ export class AutorController {
     const idStr = await perguntar('Digite o ID do Autor que deseja atualizar: ');
     const nome = await perguntar('Novo Nome (deixe em branco para manter): ');
     const nacionalidade = await perguntar('Nova Nacionalidade (deixe em branco para manter): ');
-
-    // MUDANÇA: Adicionada a pergunta para a nova data
     const dataNascimento = await perguntar('Nova Data (AAAA-MM-DD) (deixe em branco para manter): ');
 
     try {
       const dadosAtualizados: any = {};
       if (nome.trim() !== '') dadosAtualizados.nome = nome.trim();
       if (nacionalidade.trim() !== '') dadosAtualizados.nacionalidade = nacionalidade.trim();
-
       if (dataNascimento.trim() !== '') dadosAtualizados.data_nascimento = dataNascimento.trim();
 
       const autorAtualizado = await this.autorService.atualizar(Number(idStr), dadosAtualizados);
