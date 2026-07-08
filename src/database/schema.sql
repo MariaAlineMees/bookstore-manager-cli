@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS autores (
 
 CREATE TABLE IF NOT EXISTS livros (
     id SERIAL PRIMARY KEY,
-    titulo VARCHAR(200) NOT NULL,
+    titulo VARCHAR(200) NOT NULL UNIQUE,
     ano_publicacao INTEGER,
     quantidade_disponivel INTEGER NOT NULL DEFAULT 1,
     autor_id INTEGER NOT NULL,
