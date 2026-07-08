@@ -26,7 +26,11 @@ export class LivroService {
 
       const novoLivro = new Livro(titulo.trim(), autorId, quantidade, anoPublicacao);
       return await this.livroRepository.criar(novoLivro);
-    } catch (error) {
+
+    } catch (error: any) {
+      if (error.code === '23505') {
+        throw new AppError(`O livro '${titulo.trim()}' já está cadastrado no sistema.`);
+      }
       throw error;
     }
   }
