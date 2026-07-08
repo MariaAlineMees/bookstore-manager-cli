@@ -5,7 +5,6 @@ import { ClienteController } from './controllers/ClienteController';
 import { EmprestimoController } from './controllers/EmprestimoController';
 import { RelatorioController } from './controllers/RelatorioController';
 import { perguntar, fecharEntrada } from './utils/input';
-
 import { pool } from './database/connection'; 
 
 const autorController = new AutorController();
@@ -15,14 +14,6 @@ const emprestimoController = new EmprestimoController();
 const relatorioController = new RelatorioController();
 
 async function iniciarSistema(): Promise<void> {
-  
-  console.clear(); 
-  console.log('================================================');
-  console.log('      📚 BEM-VINDO AO BOOKSTORE MANAGER CLI     ');
-  console.log('================================================\n');
-  
-  await perguntar('Pressione Enter para iniciar o sistema...'); 
-
   while (true) {
     console.clear(); 
     
@@ -47,7 +38,7 @@ async function iniciarSistema(): Promise<void> {
         await relatorioController.exibirMenuRelatorios();
         break;
       case '0':
-      
+        
         console.log('\n================================================');
         console.log(' 👋 Encerrando o BookStore Manager CLI...');
         console.log(' Obrigado por utilizar nosso sistema. Até logo!');

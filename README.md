@@ -111,6 +111,7 @@ O projeto foi rigorosamente estruturado em camadas para promover a separação d
 
 ```plaintext
 BOOKSTORE-MANAGER-CLI/
+├── assets/                     # Imagens e capturas de tela para a documentação
 ├── src/
 │   ├── controllers/            # Recebem a entrada do terminal e orquestram as chamadas
 │   │   ├── AutorController.ts
@@ -147,6 +148,7 @@ BOOKSTORE-MANAGER-CLI/
 │   │   └── RelatorioService.ts
 │   ├── utils/                  # Ferramentas auxiliares e tratamento customizado de exceções
 │   │   ├── AppError.ts
+│   │   ├── DateUtils.ts        # Utilitário para formatação de datas (Padrão Brasileiro)
 │   │   └── input.ts
 │   └── main.ts                 # Ponto de entrada central (arranque da aplicação)
 ├── .env / .env.example         # Variáveis de ambiente e credenciais locais do banco
@@ -195,6 +197,36 @@ O sistema implementa validações robustas (via `AppError`) garantindo estabilid
 * **Ação:** Cadastrar um livro com um `autor_id` que não existe.
 * **Comportamento:**
 > ⚠️ **Atenção:** O Autor com ID informado não existe no banco de dados.
+
+---
+
+## 💡 Exemplos de Utilização
+
+Abaixo estão as telas do sistema em funcionamento, demonstrando a interface interativa, a formatação de dados e o tratamento de regras de negócio.
+
+**1. Tela Inicial e Menu Principal**
+*(Comprova a execução via CLI e navegação estruturada)*
+![Menu Principal do Sistema](./assets/menu.png)
+
+**2. Listagem de Entidades (Formatada com DateUtils)**
+*(Demonstra a aplicação de utilitários e renderização de tabelas)*
+![Listagem de Autores](./assets/lista-autores.png)
+
+**3. Relatório Gerencial Complexo**
+*(Comprova o uso de agregações SQL: JOIN, COUNT, GROUP BY e LIMIT)*
+![Top 5 Livros Populares](./assets/relatorio-top5.png)
+
+**4. Visão Geral de Empréstimos**
+*(Cruzamento de dados entre Clientes, Livros e Empréstimos)*
+![Histórico Completo](./assets/historico.png)
+
+**5. Tratamento de Exceções: Regra de Negócio**
+*(Bloqueio de empréstimo por falta de estoque disponível)*
+![Erro de Estoque Zerado](./assets/erro-estoque.png)
+
+**6. Tratamento de Exceções: Banco de Dados**
+*(Prevenção de duplicidade baseada em restrição UNIQUE)*
+![Erro de Livro Duplicado](./assets/erro-duplicado.png)
 
 ---
 
