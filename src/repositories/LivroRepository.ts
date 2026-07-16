@@ -2,7 +2,7 @@ import { pool } from '../database/connection';
 import { Livro, ILivro } from '../models/Livro';
 
 export class LivroRepository {
-  
+
   async criar(livro: Livro): Promise<ILivro> {
     const query = `
       INSERT INTO livros (titulo, autor_id, quantidade_disponivel, ano_publicacao)
@@ -10,9 +10,9 @@ export class LivroRepository {
       RETURNING *;
     `;
     const valores = [
-      livro.titulo, 
-      livro.autor_id, 
-      livro.quantidade_disponivel, 
+      livro.titulo,
+      livro.autor_id,
+      livro.quantidade_disponivel,
       livro.ano_publicacao || null
     ];
     const resultado = await pool.query(query, valores);

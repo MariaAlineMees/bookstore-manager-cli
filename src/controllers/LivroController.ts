@@ -8,7 +8,7 @@ export class LivroController {
 
   async gerenciarLivros(): Promise<void> {
     while (true) {
-      
+
       LivroMenu.exibir();
 
       const opcao = await perguntar('Escolha uma opção: ');
@@ -67,7 +67,7 @@ export class LivroController {
       if (livros.length === 0) {
         console.log('Nenhum livro cadastrado no sistema.');
       } else {
-    
+
         const livrosFormatados = livros.map((livro: any) => ({
           ID: livro.id,
           Título: livro.titulo,
@@ -92,7 +92,7 @@ export class LivroController {
     const idStr = await perguntar('Digite o ID do Livro: ');
     try {
       const livro = await this.livroService.buscarPorId(Number(idStr));
-      
+
       const livroFormatado = {
         ID: livro.id,
         Título: livro.titulo,
@@ -123,11 +123,11 @@ export class LivroController {
 
     try {
       const dadosAtualizados: any = {};
-      
+
       if (titulo.trim() !== '') dadosAtualizados.titulo = titulo.trim();
       if (autorIdStr.trim() !== '') dadosAtualizados.autor_id = Number(autorIdStr.trim());
       if (quantidadeStr.trim() !== '') dadosAtualizados.quantidade_disponivel = Number(quantidadeStr.trim());
-  
+
       if (anoStr.trim() !== '') dadosAtualizados.ano_publicacao = Number(anoStr.trim());
 
       const livroAtualizado = await this.livroService.atualizar(Number(idStr), dadosAtualizados);

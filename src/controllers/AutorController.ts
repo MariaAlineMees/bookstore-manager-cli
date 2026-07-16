@@ -2,7 +2,7 @@ import { AutorService } from '../services/AutorService';
 import { perguntar } from '../utils/input';
 import { AutorMenu } from '../menus/AutorMenu';
 import { AppError } from '../utils/AppError';
-import { DateUtils } from '../utils/DateUtils'; 
+import { DateUtils } from '../utils/DateUtils';
 export class AutorController {
   private autorService = new AutorService();
 
@@ -84,7 +84,7 @@ export class AutorController {
     try {
       const autor: any = await this.autorService.buscarPorId(Number(idStr));
       console.log('\n✅ Autor encontrado:');
-      
+
       const autorFormatado = {
         ...autor,
         data_nascimento: autor.data_nascimento ? DateUtils.formatarDataBR(autor.data_nascimento) : 'N/D'

@@ -2,7 +2,7 @@ import { EmprestimoService } from '../services/EmprestimoService';
 import { perguntar } from '../utils/input';
 import { EmprestimoMenu } from '../menus/EmprestimoMenu';
 import { AppError } from '../utils/AppError';
-import { DateUtils } from '../utils/DateUtils'; 
+import { DateUtils } from '../utils/DateUtils';
 
 export class EmprestimoController {
   private emprestimoService = new EmprestimoService();
@@ -64,7 +64,7 @@ export class EmprestimoController {
 
     try {
       const emprestimoDevolvido = await this.emprestimoService.realizarDevolucao(Number(emprestimoIdStr));
-      
+
       const dataFormatada = DateUtils.formatarDataBR(emprestimoDevolvido.data_devolucao);
       console.log(`\n✅ Devolução registrada com sucesso! Data de devolução: ${dataFormatada}`);
       console.log('💡 O estoque do livro foi aumentado em 1 unidade automaticamente.');
@@ -84,7 +84,7 @@ export class EmprestimoController {
       if (ativos.length === 0) {
         console.log('Nenhum empréstimo ativo no momento.');
       } else {
-  
+
         const ativosFormatados = ativos.map((emp: any) => ({
           ...emp,
           data_emprestimo: DateUtils.formatarDataBR(emp.data_emprestimo)
@@ -130,13 +130,13 @@ export class EmprestimoController {
     try {
       const emprestimo: any = await this.emprestimoService.buscarPorId(Number(idStr));
       console.log('\n✅ Registro encontrado:');
-      
+
       const emprestimoFormatado = {
         ...emprestimo,
         data_emprestimo: DateUtils.formatarDataBR(emprestimo.data_emprestimo),
         data_devolucao: DateUtils.formatarDataBR(emprestimo.data_devolucao)
       };
-      
+
       console.table([emprestimoFormatado]);
     } catch (error: any) {
       if (error instanceof AppError) {

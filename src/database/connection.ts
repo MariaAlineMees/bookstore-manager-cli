@@ -20,7 +20,7 @@ export async function initDatabase(): Promise<void> {
 
     const schemaPath = path.join(__dirname, 'schema.sql');
     const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-    
+
     await client.query(schemaSql);
     console.log('✅ Tabelas verificadas/criadas no banco de dados com sucesso!');
 
